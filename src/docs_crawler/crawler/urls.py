@@ -4,7 +4,6 @@ The crawler uses the canonical form as the key of the shared "seen" set and of t
 `pages` table, so the same page is never fetched or stored twice.
 """
 
-import os
 import re
 from urllib.parse import SplitResult, parse_qsl, urlencode, urljoin, urlsplit, urlunsplit
 
