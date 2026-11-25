@@ -1,4 +1,3 @@
-
 import pytest
 
 from docs_crawler.crawler.urls import InvalidURLError, normalize_url
