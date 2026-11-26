@@ -7,7 +7,12 @@ authors = [
     { name = "Raef Krayem", email = "82458575+RaefKrayem@users.noreply.github.com" }
 ]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "beautifulsoup4>=4.15.0",
+    "lxml>=6.1.3",
+    "protego>=0.7.0",
+    "pydantic>=2.14.4",
+]
 
 [project.scripts]
 docs-crawler = "docs_crawler:main"
