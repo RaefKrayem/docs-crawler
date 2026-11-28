@@ -65,6 +65,17 @@ def test_footnotes_are_kept() -> None:
     assert texts(page.blocks) == ["[1] A note."]
 
 
+def test_mdn_widgets_and_article_footer_are_removed() -> None:
+    page = clean_mdn(
+        "<p>Real text</p>"
+        "<mdn-content-feedback><template shadowrootmode='open'><style>.button{color:red}</style>"
+        "<p>Was this page helpful to you?</p></template></mdn-content-feedback>"
+        "<section class='content-section article-footer'><p>This page was last modified on"
+        " <time datetime='2026-10-26T04:56:01.000Z'>Oct 26, 2026</time>.</p></section>"
+    )
+    assert texts(page.blocks) == ["Real text"]
+
+
 def test_blocks_keep_page_order() -> None:
     page = clean_mdn(
         "<h2>A</h2><p>para</p><ul><li>item</li></ul><pre>code</pre>"
@@ -198,6 +209,17 @@ def clean_fixture(site: Site, name: str) -> CleanedPage:
     return clean_html((FIXTURES / site / name).read_text(encoding="utf-8"), site)
 
 
+MDN_CHROME = [
+    "In this article",
+    "Your blueprint for a better internet",
+    "Was this page helpful",
+    ".button{",
+    "Enable JavaScript to view this browser compatibility table",
+    "This page was last modified",
+    "View this page on GitHub",
+]
+
+
 def all_text(page: CleanedPage) -> str:
     """Every piece of text the page's blocks hold, joined into one string."""
     parts = [page.title]
@@ -218,14 +240,14 @@ def all_text(page: CleanedPage) -> str:
             "mdn",
             "array-map.html",
             "Array.prototype.map()",
-            ["In this article", "Your blueprint for a better internet", "Skip to main content"],
+            [*MDN_CHROME, "Skip to main content"],
             id="mdn-array-map",
         ),
         pytest.param(
             "mdn",
             "input-element.html",
             "<input> HTML input element",
-            ["In this article", "Your blueprint for a better internet"],
+            MDN_CHROME,
             id="mdn-input-element",
         ),
         pytest.param(

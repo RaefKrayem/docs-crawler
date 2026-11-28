@@ -40,6 +40,11 @@ NOISE_SELECTOR = ", ".join(
         "iframe",
         "button",
         "svg",
+        # MDN widgets (feedback buttons, compatibility table loader) live in <template>
+        # shadow roots. CSS selectors do not look inside a <template>, so the whole
+        # element must go, or its <style> text leaks into the blocks.
+        "template",
+        ".article-footer",  # MDN: "last modified on …" and "View this page on GitHub"
         "a.headerlink",  # Python docs: the "¶" permalink after headings and function names
     ]
 )
